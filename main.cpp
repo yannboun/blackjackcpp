@@ -43,6 +43,8 @@ class Deck{
 class BlackJack{
     public:
         Deck deck;
+        int player_wins{0};
+        int dealer_wins{0};
         BlackJack(Deck &deck) : deck(deck) {};
         BlackJack(){
             Deck deck{};
@@ -59,11 +61,15 @@ class BlackJack{
                 draw_player();
                 cout << "Player has : " << player_hand << " (" << player_score << ")\n";
                 if(player_score==21){
-                        cout << "BlackJack ! You Win";
+                        cout << "BlackJack ! You Win\n";
+                        player_wins++;
+                        cout << "Player Score: " << player_wins << " Dealer Score: " << dealer_wins;
                         return;
                         }
                 if(player_score>21){
-                        cout << "Busted you Lose !";
+                        cout << "Busted you Lose !\n";
+                        dealer_wins++;
+                        cout << "Player Score: " << player_wins << " Dealer Score: " << dealer_wins<<endl;
                         return;
                         }
                 do
@@ -78,10 +84,25 @@ class BlackJack{
                     draw_dealer();
                     cout << "Dealer has : " << dealer_hand << " (" << dealer_score << ")\n";
             }
-            if(dealer_score > 21){cout << "Dealer Busts, you win"; return;}
-            else if(player_score>dealer_score){cout << "You Win !"; return;}
-            else if(player_score==dealer_score){cout << "Draw"; return;}
-            else{cout << "You lose"; return;}
+            if(dealer_score > 21){
+                    cout << "Dealer Busts, you win\n";
+                    dealer_wins++;
+                    cout << "Player Score: " << player_wins << " Dealer Score: " << dealer_wins<<endl;
+                    return;}
+            else if(player_score>dealer_score){
+                    cout << "You Win !\n";
+                    player_wins++;
+                    cout << "Player Score: " << player_wins << " Dealer Score: " << dealer_wins<<endl;
+                    return;}
+            else if(player_score==dealer_score){
+                    cout << "Draw\n";
+                    cout << "Player Score: " << player_wins << " Dealer Score: " << dealer_wins<<endl;
+                    return;}
+            else{
+                cout << "You lose\n";
+                dealer_wins++;
+                cout << "Player Score: " << player_wins << " Dealer Score: " << dealer_wins<<endl;
+                return;}
 
         }
     private:
@@ -145,7 +166,24 @@ class BlackJack{
 
 
 int main(){
-    BlackJack bj{};
-    bj.play();
+    Deck deck{};
+    BlackJack bj{deck};
+    char player_action{};
+    while(true){
+        bj.play();
+        do
+        {
+            cout << "\nWould you like to play again [y/n] ?" << endl;
+            cin >> player_action;
+        } while( !cin.fail() && player_action!='y' && player_action!='n');
+        if(player_action == 'n'){break;}
+        player_action = 'x';
+        do
+        {
+            cout << "\nWould you like to shuffle the deck [y/n] ?" << endl;
+            cin >> player_action;
+        } while( !cin.fail() && player_action!='y' && player_action!='n');
+        if(player_action == 'y'){deck.shuffle();}
+    }
     return 0;
 }
