@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1604883605 source:c:\users\yannb\desktop\c++\blackjack_cpp\main.cpp
+	<vector>
+	<iostream>
+	<algorithm>
+	<map>
+
